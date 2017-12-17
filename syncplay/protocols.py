@@ -24,6 +24,10 @@ class JSONCommandProtocol(LineReceiver):
                 self.handleError(message[1])
             elif command == "Chat":
                 self.handleChat(message[1])
+            elif command == "OSD":
+                #self.handleChat(message[1])
+            elif command == "Load":
+                self.handleLoad(message[1])
             else:
                 self.dropWithError(getMessage("unknown-command-server-error").format(message[1]))  # TODO: log, not drop
 
@@ -253,6 +257,10 @@ class SyncClientProtocol(JSONCommandProtocol):
         messageString = u"<{}> {}".format(message['username'], userMessage)
         self._client.ui.showMessage(messageString)
 
+	def handleLoad(self,message):
+        filename = message['filename']
+        self._client.loadFile(filename);
+
     def setReady(self, isReady, manuallyInitiated=True):
         self.sendSet({
             "ready": {
@@ -374,6 +382,11 @@ class SyncServerProtocol(JSONCommandProtocol):
         if not self._factory.disableChat:
             self._factory.sendChat(self._watcher,chatMessage)
 
+    def handleLoad(self,message):
+        load = {}
+		load["filename"] = message["filename"]
+		self.sendMessage({"Load": load)
+		
     def setWatcher(self, watcher):
         self._watcher = watcher
 

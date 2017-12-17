@@ -853,7 +853,8 @@ class SyncplayClient(object):
     def storeControlPassword(self, room, password):
         if password:
             self.controlpasswords[room] = password
-
+    def loadFile(self, filename):
+        self._player.openFile(filename, True)
     def getControlledRoomPassword(self, room):
         if self.controlpasswords.has_key(room):
             return self.controlpasswords[room]
