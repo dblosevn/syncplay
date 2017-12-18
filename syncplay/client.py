@@ -509,7 +509,7 @@ class SyncplayClient(object):
                 if self.userlist.currentUser.file.path == filePath:
                     openIt = False
         except:
-            openIt = False
+            openIt = True
         if self.userlist.currentUser.file == None or openIt == True:
             self.playlist.openedFile()
             self._player.openFile(filePath, resetPosition)
