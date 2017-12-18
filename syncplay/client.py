@@ -502,16 +502,13 @@ class SyncplayClient(object):
         return False
 
     def openFile(self, filePath, resetPosition=False):
-        print "Opening"
-        print filePath
-        print "Old file"
-        print self.userlist.currentUser.file
-        self.playlist.openedFile()
-        self._player.openFile(filePath, resetPosition)
-        if resetPosition:
-            self.establishRewindDoubleCheck()
-            self.lastRewindTime = time.time()
-            self.autoplayCheck()
+        if self.userlist.currentUser.file.path != filePath
+            self.playlist.openedFile()
+            self._player.openFile(filePath, resetPosition)
+            if resetPosition:
+                self.establishRewindDoubleCheck()
+                self.lastRewindTime = time.time()
+                self.autoplayCheck()
 
     def fileSwitchFoundFiles(self):
         self.ui.fileSwitchFoundFiles()
