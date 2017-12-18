@@ -504,9 +504,12 @@ class SyncplayClient(object):
 
     def openFile(self, filePath, resetPosition=False):
         openIt = True
-        if 'path' in self.userlist.currentUser.file:
-            if self.userlist.currentUser.file.path == filePath:
-                openIt = False
+        try:
+            if 'path' in self.userlist.currentUser.file:
+                if self.userlist.currentUser.file.path == filePath:
+                    openIt = False
+        except:
+            openIt = False
         if self.userlist.currentUser.file == None or openIt == True:
             self.playlist.openedFile()
             self._player.openFile(filePath, resetPosition)
