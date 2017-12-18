@@ -150,6 +150,10 @@ class SyncFactory(Factory):
         messageDict={"filename":message,"username" : watcher.getName()}
         self._roomManager.broadcastRoom(watcher, lambda w: w.sendLoad(messageDict))
 
+    def sendOSD(self,watcher,message):
+        messageDict={"message":message,"username" : watcher.getName()}
+        self._roomManager.broadcastRoom(watcher, lambda w: w.sendOSD(messageDict))
+
     def sendChat(self,watcher,message):
         message = truncateText(message, constants.MAX_CHAT_MESSAGE_LENGTH)
         messageDict={"message":message,"username" : watcher.getName()}
@@ -457,6 +461,9 @@ class Watcher(object):
 
     def sendLoad(self,message):
         self._connector.sendMessage({"Load" : message})
+
+    def sendOSD(self,message):
+        self._connector.sendMessage({"OSD" : message})
 
     def sendChatMessage(self,message):
         if self._connector.meetsMinVersion(constants.CHAT_MIN_VERSION):

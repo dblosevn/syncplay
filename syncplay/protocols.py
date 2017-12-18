@@ -25,7 +25,7 @@ class JSONCommandProtocol(LineReceiver):
             elif command == "Chat":
                 self.handleChat(message[1])
             elif command == "OSD":
-                self.handleChat("test")
+                self.handleOSD(message[1])
             elif command == "Load":
                 self.handleLoad(message[1])
             else:
@@ -257,9 +257,13 @@ class SyncClientProtocol(JSONCommandProtocol):
         messageString = u"<{}> {}".format(message['username'], userMessage)
         self._client.ui.showMessage(messageString)
 
+    def handleOSD(self,message):
+        userMessage = message['message']
+        messageString = userMessage
+        self._client.ui.showOSDMessage(messageString, 1, secondaryOSD=False)
+
     def handleLoad(self,message):
         filename = message['filename']
-        print message
         self._client.openFile(filename, True);
 
     def setReady(self, isReady, manuallyInitiated=True):
@@ -383,11 +387,10 @@ class SyncServerProtocol(JSONCommandProtocol):
         if not self._factory.disableChat:
             self._factory.sendChat(self._watcher,chatMessage)
 
+    def handleOSD(self,chatMessage):
+        self._factory.sendOSD(self._watcher,chatMessage)
+
     def handleLoad(self,message):
-        load = {}
-        print message
-        load["filename"] = message
-        print {"Load" : load}
         self._factory.sendLoad(self._watcher, message)
 
     def setWatcher(self, watcher):

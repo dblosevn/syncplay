@@ -502,6 +502,10 @@ class SyncplayClient(object):
         return False
 
     def openFile(self, filePath, resetPosition=False):
+        print "Opening"
+        print filePath
+        print "Old file"
+        print self.userlist.currentUser.file
         self.playlist.openedFile()
         self._player.openFile(filePath, resetPosition)
         if resetPosition:
@@ -854,7 +858,8 @@ class SyncplayClient(object):
         if password:
             self.controlpasswords[room] = password
     def loadFile(self, filename):
-        self._player.openFile(filename, True)
+        self._player.openFile(filename, False)
+
     def getControlledRoomPassword(self, room):
         if self.controlpasswords.has_key(room):
             return self.controlpasswords[room]
